@@ -5,7 +5,6 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useEffect, useState } from "react";
-import { api } from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -15,6 +14,7 @@ import Register from "./Register";
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip ";
 import { checkToken, logIn, register } from "../utils/AuthApi";
+import { getInitialCards, getInfoUser, setUserInfo, setUserAvatar, addNewCard, getCurrentUser, changeLikeCardStatus, deleteCard} from "../utils/Api";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -39,7 +39,6 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
       checkToken()
         .then((res) => {
           if (res && typeof res === "object") {
@@ -52,34 +51,37 @@ function App() {
         .catch((err) => {
           console.log(err);
         });
-    }
+    
   }, []);
-
+  
   useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        // console.log(res);
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
-      });
+    if (loggedIn) {
+  
+  getInitialCards()
+  .then((res) => {
+    // console.log(res);
+    setCards(res);
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
 
-    api
-      .getInfoUser()
-      .then((res) => {
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
-      });
+
+  getInfoUser()
+  .then((res) => {
+    console.log(res)
+    setCurrentUser(res);
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
+ }    
   }, [loggedIn]);
 
   function handleUpdateUser(user) {
     // console.log(user);
-    api
-      .setUserInfo(user)
+    
+      setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
       })
@@ -90,8 +92,8 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
-    api
-      .setUserAvatar(avatar)
+    
+      setUserAvatar(avatar)
       .then((res) => {
         setCurrentUser(res);
       })
@@ -102,8 +104,8 @@ function App() {
   }
 
   function handleAddPlace(card) {
-    api
-      .addNewCard(card)
+    
+      addNewCard(card)
       .then((newCard) => {
         setCards([newCard, ...cards]);
       })
@@ -115,11 +117,12 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
+    console.log(card.likes);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api
-      .changeLikeCardStatus(card._id, !isLiked)
+    
+      changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
           state.map((c) => (c._id === card._id ? newCard : c))
@@ -131,8 +134,8 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api
-      .deleteCard(card._id)
+    
+      deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => (c._id === card._id ? "" : c)));
       })

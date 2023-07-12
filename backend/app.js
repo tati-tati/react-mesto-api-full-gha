@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('cors');
+
 
 const errorHandler = require('./middlewares/errorHandlers');
 
@@ -25,6 +27,12 @@ const limiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+const corsOptions = {
+  origin: 'http://localhost:3001',
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(limiter);
 app.use(helmet());
 app.disable('x-powered-by');
@@ -34,10 +42,10 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 app.use(router);
-app.use(errorLogger); 
 
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorHandler);
+app.use(errorLogger);
 
 app.listen(PORT, () => {
   console.log('Сервер работает');

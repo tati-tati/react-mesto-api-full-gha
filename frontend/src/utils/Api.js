@@ -1,10 +1,6 @@
-class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
-  }
+const BASE_URL = "http://localhost:3000";
 
-  _handleResponse(res) {
+function handleResponse(res) {
     if (res.ok) {
       return res.json();
     } else {
@@ -12,89 +8,100 @@ class Api {
     }
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
+  export function getInitialCards() {
+    return fetch(`${BASE_URL}/cards`, {
       method: "GET",
-      headers: this._headers,
-    }).then(this._handleResponse);
+      headers: { "Content-Type": "application/json" },
+      credentials : "include"
+    }).then(handleResponse);
   }
 
-  getInfoUser() {
-    return fetch(`${this._baseUrl}/users/me`, {
+  export function getInfoUser() {
+    return fetch(`${BASE_URL}/users/me`, {
       method: "GET",
-      headers: this._headers,
-    }).then(this._handleResponse);
+      headers: { "Content-Type": "application/json" },
+      credentials : "include"
+
+    }).then(handleResponse);
   }
 
-  setUserInfo(item) {
-    return fetch(`${this._baseUrl}/users/me`, {
+  export function setUserInfo(item) {
+    return fetch(`${BASE_URL}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+    headers: { "Content-Type": "application/json" },
+    credentials : "include",
+
 
       body: JSON.stringify({
         name: item.name,
         about: item.about,
       }),
-    }).then(this._handleResponse);
+    }).then(handleResponse);
   }
 
-  setUserAvatar(item) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+  export function setUserAvatar(item) {
+    return fetch(`${BASE_URL}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+    headers: { "Content-Type": "application/json" },
+    credentials : "include",
+
 
       body: JSON.stringify({
         avatar: item.avatar,
       }),
-    }).then(this._handleResponse);
+    }).then(handleResponse);
   }
 
-  addNewCard(item) {
-    return fetch(`${this._baseUrl}/cards`, {
+  export function addNewCard(item) {
+    return fetch(`${BASE_URL}/cards`, {
       method: "POST",
-      headers: this._headers,
+    headers: { "Content-Type": "application/json" },
+    credentials : "include",
+
 
       body: JSON.stringify(item),
-    }).then(this._handleResponse);
+    }).then(handleResponse);
   }
 
-  getCurrentUser() {
-    return fetch(`${this._baseUrl}/users/me`, {
+  export function getCurrentUser() {
+    return fetch(`${BASE_URL}/users/me`, {
       method: "GET",
-      headers: this._headers,
-    }).then(this._handleResponse);
+    headers: { "Content-Type": "application/json" },
+    credentials : "include"
+
+    }).then(handleResponse);
   }
 
-  changeLikeCardStatus(id, status) {
+  export function changeLikeCardStatus(id, status) {
     if (status) {
-      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      return fetch(`${BASE_URL}/cards/${id}/likes`, {
         method: "PUT",
-        headers: this._headers,
-      }).then(this._handleResponse);
+      headers: { "Content-Type": "application/json" },
+      credentials : "include"
+
+      }).then(handleResponse);
     } else {
-      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+      return fetch(`${BASE_URL}/cards/${id}/likes`, {
         method: "DELETE",
-        headers: this._headers,
-      }).then(this._handleResponse);
+      headers: { "Content-Type": "application/json" },
+      credentials : "include"
+
+      }).then(handleResponse);
     }
   }
 
-  deleteCard(cardId) {
+  export function deleteCard(cardId) {
     // console.log(cardId, `${this._baseUrl}/cards/${cardId}`)
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    return fetch(`${BASE_URL}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
-    }).then(this._handleResponse);
-  }
-}
+    headers: { "Content-Type": "application/json" },
+    credentials : "include"
 
-export const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-62",
-  headers: {
-    authorization: "2f88b489-99f5-491c-a88e-5aa5d9bc02d4",
-    "Content-Type": "application/json",
-  },
-});
+    }).then(handleResponse);
+  }
+
+
+
 
 // "Высылаю данные для 9-й проектной работы:
 

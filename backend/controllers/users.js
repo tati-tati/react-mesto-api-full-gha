@@ -59,6 +59,7 @@ const createUser = async (req, res, next) => {
     const {
       name, about, avatar, email, password,
     } = req.body;
+    console.log(email, password);
     if (!email || !password) {
       throw new CustomError(ERROR_NOT_FOUND, 'Переданы неверные данные');
     }
