@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://api.mesto.tati-tati.nomoredomains.work";
 
 function handleResponse(res) {
   console.log('auth api', res);
