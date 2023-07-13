@@ -41,10 +41,10 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 app.use(router);
+app.use(errorLogger);
 
 app.use(errors()); // обработчик ошибок celebrate
 app.use(errorHandler);
-app.use(errorLogger);
 
 app.listen(PORT, () => {
   console.log('Сервер работает');
