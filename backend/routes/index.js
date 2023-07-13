@@ -12,9 +12,11 @@ const cardRouter = require('./cardsRoutes');
 // роуты
 
 router.post('/signin', loginJoiValidate, login);
-router.post('/signup',
-createUserJoiValidate,
-createUser);
+router.post(
+  '/signup',
+  createUserJoiValidate,
+  createUser,
+);
 router.use(auth);
 
 router.use(userRouter);
