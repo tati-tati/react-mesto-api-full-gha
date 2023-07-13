@@ -9,8 +9,8 @@
 
 ## Ссылки на проект
 
-IP-адрес
+IP 51.250.14.26
 
-Frontend https://...
+Frontend https://mesto.tati-tati.nomoredomains.work
 
-Backend https://...
+Backend https://api.mesto.tati-tati.nomoredomains.work
