@@ -28,7 +28,7 @@ const limiter = rateLimit({
 });
 
 const corsOptions = {
-  origin: 'http://localhost:3001',
+  origin: 'https://mesto.tati-tati.nomoredomains.work',
   credentials: true,
 };
 app.use(cors(corsOptions));
