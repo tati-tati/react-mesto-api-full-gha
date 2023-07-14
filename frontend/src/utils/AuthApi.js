@@ -26,7 +26,6 @@ export function logIn(password, email) {
     headers: { "Content-Type": "application/json" },
     credentials : "include",
 
-
     body: JSON.stringify({ password, email }),
   }).then(handleResponse);
 }

@@ -170,7 +170,7 @@ function App() {
   }
 
   function handleRegisterSubmit({ password, email }) {
-    console.log(password, email);
+    // console.log(password, email);
     register(password, email)
       .then((res) => {
         if (res !== false) {
