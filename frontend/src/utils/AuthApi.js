@@ -1,7 +1,8 @@
 const BASE_URL = "https://api.mesto.tati-tati.nomoredomains.work";
+// const BASE_URL = "http://localhost:3000";
 
 function handleResponse(res) {
-  console.log('auth api', res);
+  // console.log('auth api', res);
   if (res.ok) {
     return res.json();
   } else {
@@ -27,6 +28,14 @@ export function logIn(password, email) {
 
 
     body: JSON.stringify({ password, email }),
+  }).then(handleResponse);
+}
+
+export function logOut() {
+  return fetch(`${BASE_URL}/signout`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials : "include",
   }).then(handleResponse);
 }
 

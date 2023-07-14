@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
@@ -28,18 +29,23 @@ const limiter = rateLimit({
 
 const corsOptions = {
   origin: 'https://mesto.tati-tati.nomoredomains.work',
+  // origin: 'http://localhost:3001',
   credentials: true,
 };
 app.use(cors(corsOptions));
-
-app.use(limiter);
-app.use(helmet());
-app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(requestLogger);
+app.use(limiter);
+app.use(helmet());
+app.disable('x-powered-by');
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.use(router);
 app.use(errorLogger);
 

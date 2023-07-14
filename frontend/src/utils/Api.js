@@ -1,4 +1,6 @@
 const BASE_URL = "https://api.mesto.tati-tati.nomoredomains.work";
+// const BASE_URL = "http://localhost:3000";
+
 
 function handleResponse(res) {
     if (res.ok) {

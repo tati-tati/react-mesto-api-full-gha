@@ -13,7 +13,7 @@ import ProtectedRouteElement from "./ProtectedRoute";
 import Register from "./Register";
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip ";
-import { checkToken, logIn, register } from "../utils/AuthApi";
+import { checkToken, logIn, logOut, register } from "../utils/AuthApi";
 import { getInitialCards, getInfoUser, setUserInfo, setUserAvatar, addNewCard, getCurrentUser, changeLikeCardStatus, deleteCard} from "../utils/Api";
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
           if (res && typeof res === "object") {
             setLoggedIn(true);
             // console.log(res);
-            setUserEmail(res.data.email);
+            setUserEmail(res.email);
             navigate("/", { replace: true });
           }
         })
@@ -69,7 +69,7 @@ function App() {
 
   getInfoUser()
   .then((res) => {
-    console.log(res)
+    // console.log(res)
     setCurrentUser(res);
   })
   .catch((err) => {
@@ -210,7 +210,11 @@ function App() {
 
   function handleExit() {
     setUserEmail("");
-    localStorage.removeItem("jwt");
+    logOut()
+    .then()
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   return (

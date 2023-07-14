@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const CustomError = require('../utils/errors');
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 const {
   ERROR_BAD_REQUEST,
   ERROR_UNAUTHORIZED,
@@ -144,7 +146,11 @@ const login = async (req, res, next) => {
       throw new CustomError(ERROR_UNAUTHORIZED, 'Переданы неверные данные');
     }
 
-    const token = jwt.sign({ _id: user._id }, 'вжух', { expiresIn: '7d' });
+    const token = jwt.sign(
+      { _id: user._id },
+      NODE_ENV === 'production' ? JWT_SECRET : 'вжух',
+      { expiresIn: '7d' },
+    );
     const cookieOption = {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
@@ -156,6 +162,14 @@ const login = async (req, res, next) => {
   }
 };
 
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie('jwtToken').send({ message: 'Выполнен выход' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
-  getUsers, getCurrentUser, getUserById, createUser, updateUser, updateUserAvatar, login,
+  getUsers, getCurrentUser, getUserById, createUser, updateUser, updateUserAvatar, login, logout,
 };
